@@ -1,2 +1,2 @@
 # Data-Structures
-I learn and data structures here
+I learn and explore data structures here
