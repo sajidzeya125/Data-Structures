@@ -80,13 +80,42 @@ Node* insertAtHead(Node* head,int val){
     Node* temp=new Node(val,head);
     return temp;
 }
+Node* insertAtK(Node* head,int val,int k){
+    if(head==NULL){
+        if(k==1) return new Node(val);
+    }
+    if(k==1){
+        Node* x=new Node(val,head);
+        return x;
+    }
+    int count=0;
+    Node* temp=head;
+    while(temp){
+        count++;
+        if(count==k-1){
+            Node* y=new Node(val);
+            y->next=temp->next;
+            temp->next=y;
+            break;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
 int main(){
     vector<int> arr={1,4,56,7,8,9};
     Node* head=arr2LL(arr);
+    // Node* temp=head;
+    // while(temp){
+    //     cout<<temp->data<<" ";
+    //     temp=temp->next;
+    // }
     // head=deleteK(head,4);
     // head=deleteElement(head,56);
-    head=insertAtHead(head,13);
-    print(head);
-    cout<<endl;
+    // head=insertAtHead(head,13);
+    // print(head);
+    // cout<<endl;
+    Node* A=insertAtK(head,99,4);
+    print(A);
 
 }
