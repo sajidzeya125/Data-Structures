@@ -64,12 +64,10 @@ Node* deleteK(Node* head,int k){
         return NULL;
     }
     else if(prev==NULL){
-        deleteHead(head);
-        return head;
+        return deleteHead(head);
     }
     else if(front==NULL){
-        deleteTail(head);
-        return head;
+        return deleteTail(head);
     }
     else{
         prev->next=front;
@@ -80,20 +78,63 @@ Node* deleteK(Node* head,int k){
         return head;
     }
 }
+void deleteNode(Node* temp){
+    Node* prev=temp->back;
+    Node* front=temp->next;
+    if(front==NULL){
+        prev->next=nullptr;
+        temp->back=nullptr;
+        free(temp);
+        return;
+    }
+    front->back=prev;
+    prev->next=front;
+    temp->back=temp->next=nullptr;
+    free(temp);
+}
+Node* insertBeforeHead(Node* head,int val){
+    Node* newHead=new Node(val,head,nullptr);
+    head->back=newHead;
+    newHead->next=head;
+    return newHead;
+}
+Node* insertBeforeTail(Node* head,int val){
+    Node* tail=head;
+    while(tail->next!=nullptr){
+        tail=tail->next;
+    }
+    Node* prev=tail->back;
+    Node* newNode=new Node(val,tail,prev);
+    prev->next=newNode;
+    tail->back=newNode;
+    return head;
+}
+void insertBeforeNode(Node* node,int val){
+    Node* prev=node->back;
+    Node* newNode= new Node(val,node,prev);
+    node->back=newNode;
+    prev->next=newNode;
+}
 void print(Node* head){
-    while(head!=NULL){
+    while(head!=nullptr){
         cout<<head->data<<" ";
         head=head->next;
     }
 }
 int main(){
-    vector<int> arr={28,29};
+    vector<int> arr={1,2,3,4,5,6,7};
     Node* head=convertArr2DLL(arr);
     // print(head);
     // Node* ans=deleteHead(head);
     // print(ans);
     // Node* ans1=deleteTail(head);
     // print(ans1);
-    Node* ans2=deleteK(head,1);
-    print(ans2);
+    // head=deleteK(head,1);
+    // print(head);
+    // deleteNode(head->next->next);
+    // print(head);
+    // Node* ans3=insertBeforeHead(head,45);
+    // print(ans3);
+    insertBeforeNode(head->next,45);
+    print(head);
 }
