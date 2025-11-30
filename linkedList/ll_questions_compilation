@@ -1,0 +1,178 @@
+1--->search in a linkedList
+
+int f(Node* head, int k){
+    Node* temp=head;
+    while(temp){
+        if(temp->data==k) return 1;
+    }
+    return 0;
+}
+
+
+
+2--->Delete head of linkedList
+
+Node* f(Node* head){
+    Node* temp=head;
+    if(head==NULL) return head;
+    head=head->next;
+    Delete temp;
+    return head;
+}
+
+
+3--->Delete last node of a linkedList
+
+Node* f(Node* head){
+    Node* temp=head;
+    if(temp==NULL || temp->next==NULL) return NULL;
+    while(temp->next->next){
+        temp=temp->next;
+    }
+    free(temp->next);
+    temp->next=nullptr;
+    return head;
+}
+
+
+4--->Remove  every kth node from the linkedList
+
+
+int lengthOfLL(Node* head){
+    Node* temp=head;
+    int count=0;
+    while(temp){
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+Node* f(Node* head, int k){
+    if(k==1) return NULL;
+    if(k<1 || k>lengthOfLL(head)) return head;
+    Node* temp=head;
+    Node* prev=NULL;
+    int count=0;
+    while(temp){
+        count++;
+        if(count==k){
+            count=0;
+            prev->next=prev->next->next;
+        }
+        prev=temp;
+        temp=temp->next;
+    }
+    return head;
+}
+
+
+5--->Insert a node before a value
+
+Node* f(Node* head,int x, int val){
+    if(head==NULL) return head;
+    if(head->data==val){
+        Node* temp=new Node(x);
+        temp->next=head;
+        return temp;
+    }
+    Node* temp=head;
+    while(temp->next){
+        if(temp->data==val){
+            Node* y=new Node(x);
+            y->next=temp->next;
+            temp->next=y;
+        }
+        temp=temp->next;
+    }
+    return head;s
+}
+
+
+6--->Delete last node of doubly linked linkedList
+
+Node* f(Node* head){
+    if(head==NULL && head->next==NULL) return NULL;
+    Node* tail=head;
+    while(tail->next){
+        tail=tail->next;
+    }
+    Node* back=tail->prev;
+    tail->prev=nullptr;
+    back->next=nullptr;
+    Delete tail;
+    return head;
+}
+
+
+7--->Insert before tail of a linkedList
+
+
+Node* f(Node* head, int k){
+    if(head==NULL){
+        Node* a=new Node(k);
+        return a;
+    }
+    if(head->next==NULL){
+        Node* temp=new Node(k);
+        head->prev=temp;
+        temp->next=head;
+        temp->prev=nullptr;
+        return temp;
+    }
+    Node* tail=head;
+    while(tail->next){
+        tail=tail->next;
+    }
+    Node* back= tail->prev;
+    Node* newNode=new Node(k,back,tail);
+    back->next=newNode;
+    tail->prev=newNode
+    return head;
+
+}
+
+
+8--->Insertion in a doubly linkedList
+
+int lengthOfDLL(Node* head){
+    int count=0;
+    Node* temp=head;
+    while(temp){
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+Node* InsertBeforeHead(Node* head, int val){
+    if(head==NULL){
+        Node* a=new Node(val);
+        return a;
+    }
+    Node* newNode=new Node(val);
+    new->next=head;
+    head->prev=newNode;
+    newNode->prev=nullptr;
+    return newNode;
+}
+Node* f(Node* head, int k, int val){
+    if(k==0) return InsertBeforeHead(head,val);
+    Node* temp=head;
+    int count=0;
+    while(temp){
+        count++;
+        if(count==k) break;
+        temp=temp->next;
+    }
+    if(k==lengthOfDLL(head)){
+        Node* newNode=new Node(val);
+        temp->next=newNode;
+        newNode->prev=temp;
+        return head;
+    }
+    Node* newNode=new Node(val);
+    Node* front=temp->next;
+    temp->next=front->prev=newNode;
+    newNode->next=front;
+    newNode->prev=temp;
+    return head;
+}
