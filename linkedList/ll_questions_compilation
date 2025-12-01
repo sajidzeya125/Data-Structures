@@ -104,7 +104,7 @@ Node* f(Node* head){
 }
 
 
-7--->Insert before tail of a linkedList
+7--->Insert before tail of a  doubly linkedList
 
 
 Node* f(Node* head, int k){
@@ -174,5 +174,361 @@ Node* f(Node* head, int k, int val){
     temp->next=front->prev=newNode;
     newNode->next=front;
     newNode->prev=temp;
+    return head;
+}
+
+
+9--->construct a doubly linkedList
+
+Node* f(vector<int> &arr){
+    Node* head=vector[0];
+    Node* prev=head;
+    for(int i=1;i<arr.size();i++){
+        Node* temp=new Node(arr[i],prev,nullptr);
+        prev->next=temp;
+        prev=prev->next;
+    }
+    return head;
+}
+
+
+10--->Insert at end of doubly linkedList
+
+
+Node* f(Node* head, int k){
+    if(head==NULL){
+        Node* a=new Node(k);
+        return a;
+    }
+    Node* temp=head;
+    while(temp->next){
+        temp=temp->next;
+    }
+    Node* newNode=new Node(k,temp,nullptr);
+    temp->next=newNode;
+    return head;
+}
+
+
+11--->Reverse a linkedList
+
+Node* f(Node* head){
+    if(head==NULL || head->next==NULL) return head;
+    Node* current=head;
+    Node* prev=NULL;
+    while(current){
+        Node* newNode=current->next;
+        current->next=prev;
+        prev=current;
+        current=newNode;
+    }
+    return prev;
+}
+
+
+12--->Reverse a doubly linkedList
+
+
+Node* f(Node* head){
+    if(head==NULL || head->next==NULL) return head;
+    Node* current=head;
+    Node* back=NULL;
+    while(current){
+        current->prev=back;
+        current->prev=current->next;
+        current->next=back;
+        current=current->prev;
+    }
+    return back->prev;
+}
+
+
+13--->Add two numbers
+
+Node* f(Node* n1, Node* n2){
+    Node* dummyNode=new Node(-1);
+    int carry=0;
+    Node* t1=n1;
+    Ndoe* t2=n2;
+    Node* current=dummyNode;
+    while(t1 || t2){
+        int sum=carry;
+        if(t1) sum+=t1->data;
+        if(t2) sum+=t2->data;
+        Node* newNode=new Node(sum%10);
+        carry=sum/10;
+        current->next=newNode;
+        if(t1) t1=t1->next;
+        if(t2) t2=t2->next;
+        current=current->next;
+    }
+    if(carry){
+        Node* a=new Node(carry);
+        current->next=a;
+    }
+    return dummyNode->next;
+}
+
+
+14--->Sort 0,1,2
+
+
+Node* f(Node* head){
+    if(head==NULL || head->next==NULL) return head;
+    Node* dummyNode0=new Node(-1);
+    Node* zero=dummyNode0;
+    Node* dummyNode1=new Node(-1);
+    Node* one=dummyNode1;
+    Node* dummyNode2=new Node(-1);
+    Node* two=dummyNode2;
+    Node* temp=head;
+    while(temp){
+        if(temp->data==0){
+            zero->next=temp;
+            zero=zero->next;
+        }
+        else if(temp->data==1){
+            one->next=temp;
+            one=one->next;
+        }
+        else{
+            two->next=temp;
+            two=two->next;
+        }
+        temp=temp->next;
+    }
+    zero->next=(dummyNode1->next)?dummyNode1->next:dummyNode2->next;
+    one->next=dummyNode2->next;
+    two->next=NULL;
+    return dummyNode0->next;
+}
+
+
+15--->segragate odd and even nodes
+
+
+Node* f(Node* head){
+    Node* temp=head;
+    Node* dummyNodeOdd=new Node(-1);
+    Node* odd=dummyNodeOdd;
+    Node* dummyNodeEven=new Node(-1);
+    Node* even=dummyNodeEven;
+    while(temp){
+        if(temp->data%2==0){
+            even->next=temp;
+            even=even->next;
+        }
+        else{
+            odd->next=temp;
+            odd=odd->next;
+        }
+        temp=temp->next;
+    }
+    odd->next=dummyNodeEven->next;
+    even->next=NULL;
+    return dummyNodeOdd->next;
+}
+
+
+16--->Add 1 to number represented by a linkedList
+
+
+int helper(Node* temp){
+    if(temp==NULL) return 1;
+    int carry=helper(temp->next);
+    temp->data+=carry;
+    if(temp->data<10) return 0;
+    temp->data=0;
+    return 1;
+}
+Node* f(Node* head){
+    int carry=helper(head);
+    if(carry){
+        Node* newNode=new Node(1);
+        newNode->next=head;
+        return newNode;
+    }
+    return head;
+}
+
+
+17--->Finding the intersection point of two linkedLists
+
+
+Node* intersectionPoint(Node* a,Node* b, int d){
+    while(d){
+        d--;
+        a=a->next;
+    }
+    while(a!=b){
+        a=a->next;
+        b=b->next;
+    }
+    return a;
+}
+Node* f(Node* firstHead, Node* secondHead){
+    Node* t1=firstHead;
+    int n1=0;
+    while(t1){
+        n1++;
+        t1=t1->next;
+    }
+    Node* t2=secondHead;
+    int n2=0;
+    while(t2){
+        n2++;
+        t2=t2->next;
+    }
+    if(n1>n2) return intersectionPoint(firstHead,secondHead,n1-n2);
+    else intersectionPoint(secondHead,firstHead,n2-n1);
+}
+
+18--->Cycle detection in a singly linkedList
+
+
+bool f(Node* head){
+    Node* slow=head;
+    Node* fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast) return true;
+    }
+    return false;
+}
+
+
+19--->Find the length of the loop in a linkedList
+
+int length(Node* temp){
+    Node* a=temp->next;
+    int count=1;
+    while(a!=temp){
+        count++;
+        a=a->next
+    }
+    return count;
+}
+int f(Node* head){
+    Node* slow=head;
+    Node* fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast){
+            Node* newNode=head;
+            while(newNode!=fast){
+                newNode=newNode->next;
+                fast=fast->next;
+            }
+            return length(newNode);
+        }
+    }
+    return 0;
+}
+
+
+20--->Find the starting node of the loop
+
+
+Node* f(Node* head){
+    Node* slow=head;
+    Node* fast=head;
+    while(fast && fast->next){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast){
+            Node* newNode=head;
+            while(newNode!=fast){
+                newNode=newNode->next;
+                fast=fast->next;
+            }
+            return newNode;
+        }
+    }
+    return 0;
+}
+
+
+21--->Remove duplicates from a sorted linkedList
+
+Node* f(Node* head){
+    Node* temp=head;
+    while(temp && temp->next){
+        Node* nextNode=temp->next;
+        while(nextNode && temp->data==nextNode->data){
+            Node* duplicate=nextNode;
+            nextNode=nextNode->next;
+            Delete duplicate;
+        }
+        temp->next=nextNode;
+        temp=temp->next;
+    }
+    return head;
+}
+
+
+22--->Delete all occurences of a given key doubly linkedList
+
+
+Node* f(Node* head, int k){
+    Node* temp=head;
+    while(temp){
+        if(temp->data==k){
+            Node* back=temp->prev;
+            Node* front=temp->front;
+            if(front) front->prev=back;
+            if(back) back->next=front;
+            free(temp);
+            temp=front;
+        }
+        else temp=temp->next;
+    }
+    return head;
+}
+
+23--->Find pairs with given sum in a doubly linkedList
+
+Node* tail(Node* temp){
+    Node* a=temp;
+    while(a->next){
+        a=a->next;
+    }
+    return a;
+}
+vector<vector<int>> f(Node* head, int sum){
+    Node* left=head;
+    Node* right=tail(head);
+    vector<vector<int>> ans;
+    while(left->data<right->data){
+        if(left->data+right->data==sum){
+            ans.push_back({left->data,right->data});
+        }
+        else if(left->data+right->data<sum){
+            left=left->next;
+        }
+        else right=right->prev;
+
+    }
+    return ans;
+}
+
+
+24--->Remove duplicates from a sorted doubly linkedList
+
+
+Node* f(Node* head){
+    Node* temp=head;
+    while(temp && temp->next){
+        Node* newNode=temp->next;
+        while(newNode && temp->data==newNode->data){
+            Node* duplicate=newNode;
+            newNode=newNode->next;
+            free(duplicate);
+        }
+        temp->next=newNode;
+        if(newNode) newNode->prev=temp;
+        temp=temp->next;
+    }
     return head;
 }
