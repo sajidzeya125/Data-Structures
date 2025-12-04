@@ -532,3 +532,137 @@ Node* f(Node* head){
     }
     return head;
 }
+
+
+25--->Reverse a linkedList in k groups
+
+
+Node* reverseLL(Node* temp){
+    if(temp==NULL || temp->next==NULL) return temp;
+    Node* prev=NULL;
+    Node* current=temp;
+    while(current){
+        Node* newNode=current->next;
+        current->next=prev;
+        prev=current;
+        current=newNode
+    }
+    return prev;
+}
+Node* findKthNode(Node* temp, int k){
+    k-=1;
+    Node* a=temp;
+    while(a && k>0){
+        k--;
+        a=a->next;
+    }
+    return a;
+}
+Node* f(Node* head, int k){
+    Node* temp=head;
+    Node* prev=NULL;
+    while(temp){
+        Node* kthNode=findKthNode(head,k);
+        if(kthNode==NULL){
+            if(prev) prev->next=temp;
+            break;
+        }
+        Node* nextNode=kthNode->next;
+        kthNode->next=NULL;
+        reverseLL(temp);
+        if(temp==head) head=kthNode;
+        else prev->next=kthNode;
+        prev=temp;
+        temp=nextNode;
+    }
+    return head;
+}
+
+
+26--->Right rotate a linkedList from kth position
+
+
+Node* findNthNode(Node* temp, int n){
+    n-=1;
+    Node* a=temp;
+    while(a && n>0){
+        n--;
+        a=a->next;
+    }
+    return a;
+}
+Node* f(Node* head, int k){
+    if(head==NULL || head->next==NULL) return head;
+    int len=1;
+    Node* tail=head;
+    while(tail->next){
+        len++;
+        tail=tail->next;
+    }
+    if(k%len==0) return head;
+    k=k%len;
+    Node* newLastNode=findNthNode(head,len-k);
+    tail->next=head;
+    head=newLastNode->next;
+    newLastNode->next=NULL;
+    return head;
+}
+
+
+27--->Merge two sorted linkedLists
+
+
+Node* f(Node* firstHead, Node* secondHead){
+    Node* dummyNode=new Node(-1);
+    Node* a=dummyNode;
+    Nodde* t1=firstHead;
+    Node* t2=secondHead;
+    whille(t1 && t2){
+        if(t1->data<=t2->data){
+            a->next=t1;
+            a=t1;
+            t1=t1->next;
+        }
+        else{
+            a->next=t2;
+            a=t2;
+            t2->next;
+        }
+    }
+    if(t1) a->next=t1;
+    else a->next=t2;
+    return dummyNode->next;
+}
+
+
+28--->Flatten a linkedList
+
+Node* mergeTwoLists(Node* temp1,Node* temp2){
+    Node* dummyNode=new Node(-1);
+    Node* a=dummyNode;
+    Node* t1=temp1;
+    Node* t2=temp2;
+    while(t1 && t2){
+        if(t1->child<=t2->child){
+            a->child=t1;
+            a=t1;
+            t1=t1->child;
+        }
+        else{
+            a->child=t1;
+            a=t2;
+            t2=t2->next;
+        }
+    }
+    if(t1) a->child=t1;
+    else a->child=t2;
+    a->next=NULL;
+    return dummyNode->child;
+}
+Node* f(Node* head){
+    if(head==NULL || head->next==NULL) return head;
+    Node* temp=head;
+    Node* mergeHead=f(head->next);
+    return mergeTwoLists(head,mergeHead);
+
+}
